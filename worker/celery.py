@@ -1,9 +1,9 @@
 from celery import Celery
 
-app = Celery('app',
+app = Celery('worker',
              broker='sqla+sqlite:///./broker.sqlite3',
              backend='db+sqlite:///./backend.sqlite3',
-             include=['app.tasks'])
+             include=['worker.tasks'])
 
 app.conf.update(
     result_expires=10,

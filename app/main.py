@@ -1,10 +1,15 @@
 import time
+import uuid
 
 from worker.tasks import do_work
 
 
 def send_task():
-    do_work.delay()
+    path = "/abc/def"
+    gid = uuid.uuid4()
+
+    do_work(path=path,gid=gid)
+    print("task send")
 
 if __name__ == "__main__":
     while True:
