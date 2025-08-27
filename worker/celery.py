@@ -11,6 +11,14 @@ app.conf.update(
     enable_utc=False,
 )
 
+app.conf.database_engine_options = {
+    'echo': False,
+}
+
+app.conf.database_table_names = {
+    'task': 'task_result',
+    'group': 'group_meta',
+}
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(

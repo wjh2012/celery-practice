@@ -26,7 +26,7 @@ def move_file(src: str, dst: str):
 
 
 # 1. 파일 이동 전용 태스크
-@app.task
+@app.task(ignore_result=False, autoretry_for=(Exception,), retry_backoff=True, acks_late=True)
 def move_file_task(gid, path):
     print(f"[TASK-move_file] {gid}, {path}")
     original_filename = os.path.basename(path)
@@ -40,7 +40,7 @@ def move_file_task(gid, path):
 
 
 # 2. HTTP 요청 전송 태스크
-@app.task(ignore_result=True)
+@app.task(ignore_result=False, autoretry_for=(Exception,), retry_backoff=True, acks_late=True)
 def mock_http_task(final_dest_path):
     print(f"[TASK-mock_http] {final_dest_path}")
     delay = random.uniform(0.2, 2.0)
